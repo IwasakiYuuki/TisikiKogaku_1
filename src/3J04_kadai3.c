@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define P_DATA_SIZE 64
 #define DATA_SIZE 512
@@ -51,7 +52,7 @@ char loadImg(char *img,unsigned char mapdata[DATA_SIZE]){
 
 	if(fpr==NULL){
 		printf("file not found...\n");
-		return 1;
+		exit(1);
 	}
 
 	if(fread(mapdata,sizeof(char),DATA_SIZE,fpr)<=0){
@@ -319,7 +320,7 @@ int recLabel(unsigned char p[][P_DATA_SIZE]){
 	return 0;
 }
 
-void fi ll(unsigned char p[][P_DATA_SIZE],int i,int j,int label){
+void fill(unsigned char p[][P_DATA_SIZE],int i,int j,int label){
 	
 	p[i][j]=label;
 	if(p[i-1][j]==1)fill(p,i-1,j,label);

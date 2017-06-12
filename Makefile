@@ -1,30 +1,34 @@
 .PHONY:clean all
 
 CC = gcc
-OBJ = 3J04_kadai.c
+OBJ = src/3J04_kadai3.c
 HAEDER_DIR = 
 LIB_DIR =
 LIB =
+CREATE_LOG = echo "[*]create files [$@] from [$^]\n"
 
 outcreat:
-	make ${OBJ:.c=.out}
-	make clean
+	@make ${OBJ:.c=.out}
+	@make clean
 
 libcreat:
-	make ${LIB}
+	@make ${LIB}
 
 
 ${OBJ:.c=.out}:${OBJ:.c=.o}
-	${CC} $< -o $@
+	@${CC} $< -o $@
+	@${CREATE_LOG}
 
 .o.c:
-	${CC} -c $<
+	@${CC} -c $<
+	@${CREATE_LOG}
 
 .lib.o:
-	${CC} -shered $< -o $@
+	@${CC} -shered $< -o $@
+	@${CREATE_LOG}
 
 clean:
-	rm -rf *.obj
+	@rm -rf *.obj
 
 ${OBJ:.c=.o}:${OBJ}
 ${LIB}:${LIB:.lib=.o}
