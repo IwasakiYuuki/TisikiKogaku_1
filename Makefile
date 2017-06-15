@@ -1,9 +1,11 @@
 .PHONY:clean all
 
 CC = gcc
-OBJ = src/3J04_kadai3.c
-HAEDER_DIR = 
-LIB_DIR =
+OBJ = 3J04_kadai3.c
+SOUCE_DIR = ./src
+BIN_DIR = ./bin
+HAEDER_DIR = ./include
+LIB_DIR = ./lib
 LIB =
 CREATE_LOG = echo "[*]create files [$@] from [$^]\n"
 
@@ -15,11 +17,11 @@ libcreat:
 	@make ${LIB}
 
 
-${OBJ:.c=.out}:${OBJ:.c=.o}
-	@${CC} $< -o $@
+$(BIN_DIR)/${OBJ:.c=.out}:$(BIN_DIR)/${OBJ:.c=.o}
+	@${CC} $< -o $^
 	@${CREATE_LOG}
 
-.o.c:
+$(BIN_DIR)/%.o:$(SOUSE_DIR)/%.c
 	@${CC} -c $<
 	@${CREATE_LOG}
 
@@ -30,5 +32,5 @@ ${OBJ:.c=.out}:${OBJ:.c=.o}
 clean:
 	@rm -rf *.obj
 
-${OBJ:.c=.o}:${OBJ}
+$(BIN_DIR)/${OBJ:.c=.o}:$(SOUSE_DIR)/${OBJ}
 ${LIB}:${LIB:.lib=.o}
