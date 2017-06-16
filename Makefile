@@ -7,7 +7,7 @@ BIN_DIR = ./bin/
 HAEDER_DIR = ./include/
 LIB_DIR = ./lib/
 LIB =
-CREATE_LOG = echo "[*]create files [$@] from [$^]"
+CREATE_LOG = echo "[*]create files [$@] from [$^]."
 
 all: $(addprefix $(BIN_DIR),$(OBJ:.c=.out)) clean
 
@@ -29,6 +29,7 @@ $(addprefix $(BIN_DIR),%.o):$(addprefix $(SOUCE_DIR),%.c)
 
 clean:
 	@rm -rf $(wildcard $(addprefix $(BIN_DIR),*.o))
+	@echo "[*]delete files [$(wildcard $(addprefix $(BIN_DIR),*.o))]."
 
 $(addprefix $(BIN_DIR),$(OBJ:.c=.o)):$(addprefix $(SOUCE_DIR),$(OBJ))
 ${LIB}:${LIB:.lib=.o}
