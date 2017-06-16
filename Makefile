@@ -1,7 +1,7 @@
 .PHONY:clean all
 
 CC = gcc
-OBJ = 3J04_kadai1.c
+OBJ = 3J04_kadai3.c
 SOUCE_DIR = ./src/
 BIN_DIR = ./bin/
 HAEDER_DIR = ./include/
