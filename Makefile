@@ -1,4 +1,4 @@
-.PHONY:clean all
+.PHONY:clean all out
 
 CC = gcc
 OBJ = 3J04_kadai3.c
@@ -7,11 +7,9 @@ BIN_DIR = ./bin/
 HAEDER_DIR = ./include/
 LIB_DIR = ./lib/
 LIB =
-CREATE_LOG = echo "[*]create files [$@] from [$^]\n"
+CREATE_LOG = echo "[*]create files [$@] from [$^]"
 
-outcreat:
-	@make $(addprefix $(BIN_DIR),$(OBJ:.c=.out))
-	@make clean
+all: $(addprefix $(BIN_DIR),$(OBJ:.c=.out)) clean
 
 libcreat:
 	@make ${LIB}
@@ -30,7 +28,7 @@ $(addprefix $(BIN_DIR),%.o):$(addprefix $(SOUCE_DIR),%.c)
 	@${CREATE_LOG}
 
 clean:
-	@rm -rf *.obj
+	@rm -rf $(wildcard $(addprefix $(BIN_DIR),*.o))
 
 $(addprefix $(BIN_DIR),$(OBJ:.c=.o)):$(addprefix $(SOUCE_DIR),$(OBJ))
 ${LIB}:${LIB:.lib=.o}
