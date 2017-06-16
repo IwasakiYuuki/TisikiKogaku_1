@@ -6,8 +6,8 @@ unsigned char data[DATA_SIZE];
 unsigned char mask;
 
 char loadImg(char *img,char *mapdata);
-char printimg(char *mapdata);
-void enterPrintImg(char *filename,char *datamap);
+char printimg(unsigned char *mapdata);
+void enterPrintImg(char *filename,unsigned char *datamap);
 
 int main(){
 	char filename[100];
@@ -45,7 +45,7 @@ char loadImg(char *img,char *mapdata){
 
 //return 0 : success
 //char *mapdata : data of img
-char printimg(char mapdata[512]){
+char printimg(unsigned char mapdata[512]){
 	
 	int i,j;
 	
@@ -69,7 +69,7 @@ char printimg(char mapdata[512]){
 	return 0;
 }
 
-void enterPrintImg(char *filename,char *mapdata){
+void enterPrintImg(char *filename,unsigned char *mapdata){
 
 	FILE *fpr;
 	int n=0;
