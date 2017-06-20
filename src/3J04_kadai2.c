@@ -7,12 +7,12 @@ unsigned char data[DATA_SIZE];
 unsigned char pattern[P_DATA_SIZE][P_DATA_SIZE];
 unsigned char mask;
 
-char loadImg(char *img,char *mapdata);
-void printimg(char mapdata[DATA_SIZE]);
-void enterPrintImg(char *filename,char *datamap);
-void expand(char data[DATA_SIZE],char pattern[][P_DATA_SIZE]);
-void printexpand(char pattern[][P_DATA_SIZE]);
-void compress(char data[DATA_SIZE],char pattern[][P_DATA_SIZE]);
+char loadImg(char *img,unsigned char *mapdata);
+void printimg(unsigned char mapdata[DATA_SIZE]);
+void enterPrintImg(char *filename,unsigned char *datamap);
+void expand(unsigned char data[DATA_SIZE],unsigned char pattern[][P_DATA_SIZE]);
+void printexpand(unsigned char pattern[][P_DATA_SIZE]);
+void compress(unsigned char data[DATA_SIZE],unsigned char pattern[][P_DATA_SIZE]);
 
 int main(){
 	char filename[128];
@@ -34,7 +34,7 @@ int main(){
 		for( y = 0 ; y < 64 ; y++ ) {
 			for( x = 0 ; x < 64 ; x++ ) {
 				putchar( pattern[y][x] == 1 ? '@' : 'o' ) ;
-			}fi
+			}
 			putchar('\n') ;
 		}
 	/* data[]‚ðƒNƒŠƒA‚·‚é*/
@@ -45,7 +45,7 @@ int main(){
 
 //return 0 : success  return 1:faulse
 //char *img : filename of img
-char loadImg(char *img,char *mapdata){
+char loadImg(char *img,unsigned char *mapdata){
 	
 	FILE *fpr;
 	
@@ -67,7 +67,7 @@ char loadImg(char *img,char *mapdata){
 }
 
 //char *mapdata : data of img
-void printimg(char mapdata[DATA_SIZE]){
+void printimg(unsigned char mapdata[DATA_SIZE]){
 	
 	int i,j;
 	
@@ -90,7 +90,7 @@ void printimg(char mapdata[DATA_SIZE]){
 	return;
 }
 
-void enterPrintImg(char *filename,char *mapdata){
+void enterPrintImg(char *filename,unsigned char *mapdata){
 
 	FILE *fpr;
 	int n=0;
@@ -116,11 +116,11 @@ void enterPrintImg(char *filename,char *mapdata){
 	return;
 }
 
-void expand(char mapdata[DATA_SIZE],char pattern[][P_DATA_SIZE]){
+void expand(unsigned char mapdata[DATA_SIZE],unsigned char pattern[][P_DATA_SIZE]){
 	
 	int i,j,z;
 	
-	for(i=0;i<P_DATA_SIZE;ir++){
+	for(i=0;i<P_DATA_SIZE;i++){
 		for(j=0;j<P_DATA_SIZE/8;j++){
 			mask=0b10000000;
 			for(z=0;z<8;z++){
@@ -137,7 +137,7 @@ void expand(char mapdata[DATA_SIZE],char pattern[][P_DATA_SIZE]){
 	
 }
 
-void printexpand(char pattern[][P_DATA_SIZE]){
+void printexpand(unsigned char pattern[][P_DATA_SIZE]){
 	
 	int i,j;
 	
@@ -154,7 +154,7 @@ void printexpand(char pattern[][P_DATA_SIZE]){
 	return;
 }
 
-void compress(char data[DATA_SIZE],char pattern[][P_DATA_SIZE]){
+void compress(unsigned char data[DATA_SIZE],unsigned char pattern[][P_DATA_SIZE]){
 	
 	char bitdata=0b00000000;
 	int i,j,z;
