@@ -1,19 +1,17 @@
-.PHONY:clean all out
+.PHONY:outcreate libcreate clean
 
 CC = gcc
 SOUCE_DIR = ./src/
 BIN_DIR = ./bin/
-OBJ_DIR = ./obj/
 OBJ = $(shell ls $(SOUCE_DIR))
 HAEDER_DIR = ./include/
 LIB_DIR = ./lib/
 LIB =
 CREATE_LOG = echo "[*]create files [$@] from [$^]."
 
-all: $(addprefix $(BIN_DIR),$(OBJ:.c=.out))
+outcreate: $(addprefix $(BIN_DIR),$(OBJ:.c=.out))
 
-libcreat:
-	@make ${LIB}
+libcreate: $(addprefix $(LIB_DIR),$(LIB))
 
 
 $(addprefix $(BIN_DIR),%.out):$(addprefix $(BIN_DIR),%.o)
