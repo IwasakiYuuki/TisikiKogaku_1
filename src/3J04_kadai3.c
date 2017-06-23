@@ -21,6 +21,7 @@ int label(unsigned char p[][P_DATA_SIZE]);
 void noise(unsigned char p[][P_DATA_SIZE] , int size );
 int recLabel(unsigned char p[][P_DATA_SIZE]);
 void fill(unsigned char p[][P_DATA_SIZE],int i,int j,int label);
+void thinning(unsigned char p[][P_DATA_SIZE]);
 
 
 int main(){
@@ -34,12 +35,13 @@ int main(){
 	loadImg((char *)filename,data);
 	expand(data,pattern);
 //	printexpand(pattern);
-//	smooth(pattern);
+	smooth(pattern);
 //	normalize(pattern);
 //	outline(pattern);
 //	label(pattern);
-	noise(pattern,NOISE_SIZE);
+//	noise(pattern,NOISE_SIZE);
 //	recLabel(pattern);
+//	thinning(pattern);
 	printexpand(pattern);
 
 	return 0;
@@ -330,3 +332,36 @@ void fill(unsigned char p[][P_DATA_SIZE],int i,int j,int label){
 	if(p[i][j+1]==1)fill(p,i,j+1,label);
 	return;
 }
+
+void thinning(unsigned char p[][P_DATA_SIZE]){
+	
+gunsigndsd char mask1=0b00000111,mask2=0b00001011,mask3=0b00101001;
+	unsigned char buf=0b00000000;
+	int i,j,z,z2,count;
+
+	do{
+		count=0;
+		for(i=1;i<P_DATA_SIZE-1;i++){
+			for(j=1;j<P_DATA_SIZE-1;j++){
+				if(p[i][j]==1){
+					for(z=-1;z<2;z++){
+						for(z2=-1;z2<2;z2++){
+							if(z==0&&z2==0)continue;
+							buf=buf<<1;
+							if(p[i+z][j+z2]==1){
+								buf|=0b00000001;
+							}
+						}
+					}
+					if((buf&mask1)==mask1||(buf&mask2)==mask2||(buf&mask3)==mask3){
+						p[i][j]=0;
+						count++;
+					}
+				}
+			}
+		}
+	}while(count!=0);
+
+	return;
+}
+
