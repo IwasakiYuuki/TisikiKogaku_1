@@ -22,6 +22,8 @@ void noise(unsigned char p[][P_DATA_SIZE] , int size );
 int recLabel(unsigned char p[][P_DATA_SIZE]);
 void fill(unsigned char p[][P_DATA_SIZE],int i,int j,int label);
 void thinning(unsigned char p[][P_DATA_SIZE]);
+int checkContinuity(unsigned char p[][P_DATA_SIZE],int i,int j);
+int getOneNum(unsigned char p[][P_DATA_SIZE],int i,int j);
 
 
 int main(){
@@ -39,9 +41,10 @@ int main(){
 //	normalize(pattern);
 //	outline(pattern);
 //	label(pattern);
-//	noise(pattern,NOISE_SIZE);
+	noise(pattern,NOISE_SIZE);
 //	recLabel(pattern);
-//	thinning(pattern);
+	thinning(pattern);
+	smooth(pattern);
 	printexpand(pattern);
 
 	return 0;
@@ -334,34 +337,62 @@ void fill(unsigned char p[][P_DATA_SIZE],int i,int j,int label){
 }
 
 void thinning(unsigned char p[][P_DATA_SIZE]){
+
+	int i,j,count=0;
 	
-gunsigndsd char mask1=0b00000111,mask2=0b00001011,mask3=0b00101001;
-	unsigned char buf=0b00000000;
-	int i,j,z,z2,count;
 
 	do{
 		count=0;
 		for(i=1;i<P_DATA_SIZE-1;i++){
 			for(j=1;j<P_DATA_SIZE-1;j++){
-				if(p[i][j]==1){
-					for(z=-1;z<2;z++){
-						for(z2=-1;z2<2;z2++){
-							if(z==0&&z2==0)continue;
-							buf=buf<<1;
-							if(p[i+z][j+z2]==1){
-								buf|=0b00000001;
-							}
-						}
-					}
-					if((buf&mask1)==mask1||(buf&mask2)==mask2||(buf&mask3)==mask3){
+				if((p[i][j]==1)&&(checkContinuity(p,i,j)==2)){
+					if(getOneNum(p,i,j)>=4&&getOneNum(p,i,j)<=6){
 						p[i][j]=0;
 						count++;
 					}
 				}
 			}
 		}
+/*		for(i=P_DATA_SIZE-2;i>0;i--){
+			for(j=P_DATA_SIZE-2;j>0;j--){
+				if((p[i][j]==1)&&(checkContinuity(p,i,j)==2)){
+					if(getOneNum(p,i,j)>=3&&getOneNum(p,i,j)<=6){
+						p[i][j]=0;
+						count++;
+					}
+				}
+			}
+		}*/
 	}while(count!=0);
 
 	return;
 }
 
+int checkContinuity(unsigned char p[][P_DATA_SIZE],int i,int j){
+	
+	int count=0;
+
+	if(p[i+1][j]!=p[i][j-1])count++;
+	if(p[i][j-1]!=p[i-1][j-1])count++;
+	if(p[i-1][j-1]!=p[i-1][j])count++;
+	if(p[i-1][j]!=p[i-1][j+1])count++;
+	if(p[i-1][j+1]!=p[i][j+1])count++;
+	if(p[i][j+1]!=p[i+1][j+1])count++;
+	if(p[i+1][j+1]!=p[i+1][j])count++;
+
+	return count;
+}
+
+int getOneNum(unsigned char p[][P_DATA_SIZE],int i,int j){
+	
+	int count=0;
+	int x,y;
+
+	for(int x=-1;x<2;x++){
+		for(int y=-1;y<2;y++){
+			if(p[i+x][j+y]==1)count++;
+		}
+	}
+
+	return count;
+}

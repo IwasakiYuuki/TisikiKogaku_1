@@ -3,6 +3,7 @@
 CC = gcc
 SOUCE_DIR = ./src/
 BIN_DIR = ./bin/
+#OBJ = $(shell ls $(wildcard $(addprefix $(SOUCE_DIR),*.c)))
 OBJ = $(shell ls $(SOUCE_DIR))
 HAEDER_DIR = ./include/
 LIB_DIR = ./lib/
