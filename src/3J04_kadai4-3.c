@@ -124,29 +124,24 @@ char loadImg(char *img,unsigned char mapdata[DATA_SIZE]){
 	return 0;
 }
 
-void outline(unsigned char p[][P_DATA_SIZE]){
-	
-	int i,j;
-	
-	for(i=1;i<P_DATA_SIZE-1;i++){
-		for(j=1;j<P_DATA_SIZE-1;j++){
-			if(p[i][j]>=1){
-				if(p[i][j+1]>=1&&p[i+1][j]>=1&&p[i][j-1]>=1&&p[i-1][j]>=1){
-					p[i][j]=2;
-				}
+void outline(char p[][P_DATA_SIZE]){
+	int x,y;
+	char t[64][64];
+	for(y=1;y<63;y++) {
+		for(x=1;x<63;x++) {
+			t[y][x]=0;
+			if(p[y+1][x]==1 && p[y-1][x]==1 && p[y][x+1]==1 && p[y][x-1]==1){
+				t[y][x]=2;
 			}
 		}
 	}
-
-	for(i=0;i<P_DATA_SIZE;i++){
-		for(j=0;j<P_DATA_SIZE;j++){
-			if(p[i][j]==2){
-				p[i][j]=0;
+	for(y=0;y<64;y++){
+		for(x=0;x<64;x++){
+			if(t[y][x]==2){
+				p[y][x]=0;
 			}
-		}
+		}	
 	}
-	
-	return;
 }
 
 int check_smooth(unsigned char p[][P_DATA_SIZE],int row,int col){
@@ -208,25 +203,37 @@ void printexpand(unsigned char pattern[][P_DATA_SIZE]){
 	return;
 }
 
-void expand(unsigned char mapdata[DATA_SIZE],unsigned char pattern[][P_DATA_SIZE]){
+void expand(unsigned char data[DATA_SIZE],unsigned char pattern[][P_DATA_SIZE]){
+	int x,y,i;
+	unsigned char b;
+	int m,n;
+	m=n=0;
 	
-	int i,j,z;
-	
-	for(i=0;i<P_DATA_SIZE;i++){
-		for(j=0;j<P_DATA_SIZE/8;j++){
-			mask=0b10000000;
-			for(z=0;z<8;z++){
-				if((mapdata[i*8+j]&mask)==0b00000000){
-					pattern[i][j*8+z]=0;
-				}else{
-					pattern[i][j*8+z]=1;
+	for(y=0;y<64;y++) {
+		for(x=0;x<8;x++) {
+			b=0x80;
+			for(i=0;i<8;i++) {
+				if(data[y*8+x]&b) {
+					pattern[m][n]=1;
+					if(n==63) {
+						n=0;
+						m++;
+					} else {
+						n++;
+					}
+				} else {
+					pattern[m][n]=0;
+					if(n==63) {
+						n=0;
+						m++;
+					} else {
+						n++;
+					}
 				}
-				mask=mask>>1;
+			b=b>>1;
 			}
 		}
 	}
-	return;
-	
 }
 
 void normalize(unsigned char p[][P_DATA_SIZE]){
