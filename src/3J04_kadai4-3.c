@@ -124,7 +124,7 @@ char loadImg(char *img,unsigned char mapdata[DATA_SIZE]){
 	return 0;
 }
 
-void outline(char p[][P_DATA_SIZE]){
+void outline(unsigned char p[][P_DATA_SIZE]){
 	int x,y;
 	char t[64][64];
 	for(y=1;y<63;y++) {
