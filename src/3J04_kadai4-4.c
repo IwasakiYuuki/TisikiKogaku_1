@@ -8,8 +8,9 @@ int main( )
 {
     FILE    *fp_ftr, *fp_ave ;
     char    infn[0x80], ave[256]="Imgfiles/ave.dic";
-    int     f[DIM][4]={0},sum[DIM][4]={0};
-    int     i, j ,z,charcount;
+    double     f[DIM][4]={0},sum[DIM][4]={0};
+    int     i, j ,z;
+	double	charcount;
 
 	fp_ave = fopen( ave, "w" );
 
@@ -34,7 +35,7 @@ int main( )
             
 			for(j=0;j<DIM;j++){
 				for(z=0;z<4;z++){
-					if(fscanf(fp_ftr,"%d",&f[j][z])==EOF)goto out;
+					if(fscanf(fp_ftr,"%lf",&f[j][z])==EOF)goto out;
 				}
 			}
 
@@ -51,8 +52,8 @@ int main( )
 
 		for(j=0;j<DIM;j++){
 			for(z=0;z<4;z++){
-				sum[j][z]=sum[j][z]/charcount;
-				fprintf(fp_ave,"%d\n",sum[j][z]);
+				sum[j][z]=(double)(sum[j][z]/charcount);
+				fprintf(fp_ave,"%lf\n",sum[j][z]);
 				sum[j][z]=0;
 			}
 		}
