@@ -21,10 +21,11 @@ int main(){
 	for(k=0;k<CNUM;k++){
 		sprintf(filename,"Imgfiles/%02d.ftr",k+1);
 		fp_ftr=fopen(filename,"r");
-		for(i=0;i<20;i++){
+		i=0;
+		while(1){
 			for(j=0;j<DIM;j++){
 				for(z=0;z<4;z++){
-					fscanf(fp_ftr,"%lf",&f_ftr[j][z]);
+					if(fscanf(fp_ftr,"%lf",&f_ftr[j][z])==EOF)goto out;
 				}
 			}
 			fseek(fp_ave,0,SEEK_SET);
@@ -43,11 +44,12 @@ int main(){
 			if(num==(k+1))count[k]++;
 			chcnt[k]++;
 		}
+out:
 		fclose(fp_ftr);
 	}
 	
 	for(k=0;k<CNUM;k++){
-		printf("%d : 認識率 %d/%d\n",k,count[k],chcnt[k]);
+		printf("%d : 認識率 %d/%d\n",k+1,count[k],chcnt[k]);
 		cntsum+=count[k];
 		chsum+=chcnt[k];
 	}
