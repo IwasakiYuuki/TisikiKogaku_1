@@ -12,38 +12,48 @@ int min_num(double *array,int num);
 
 int main(){
 	double dic[CNUM]={0},sum=0,f_ftr[DIM][4]={0},f_ave[DIM][4]={0};
-	int i,i2,i3,j,z,num=0,count=0;
+	int i,i2,i3,j,z,k,num=0,count[CNUM]={0},chcnt[CNUM]={0};
 	FILE *fp_ave,*fp_ftr;
 	int filenumber=0;
 	char filename[256];
-	int sub=0;
-	printf("pls input filenumber ->");
-	scanf("%d",&filenumber);
-	sprintf(filename,"Imgfiles/%02d.ftr",filenumber);
-	fp_ftr=fopen(filename,"r");
+	int sub=0,cntsum=0,chsum=0;
 	fp_ave=fopen(AVEFILE,"r");
-	for(i=0;i<20;i++){
-		for(j=0;j<DIM;j++){
-			for(z=0;z<4;z++){
-				fscanf(fp_ftr,"%lf",&f_ftr[j][z]);
-			}
-		}
-		fseek(fp_ave,0,SEEK_SET);
-		for(i2=0;i2<CNUM;i2++){
-			sum=0;
+	for(k=0;k<CNUM;k++){
+		sprintf(filename,"Imgfiles/%02d.ftr",k+1);
+		fp_ftr=fopen(filename,"r");
+		for(i=0;i<20;i++){
 			for(j=0;j<DIM;j++){
 				for(z=0;z<4;z++){
-					fscanf(fp_ave,"%lf",&f_ave[j][z]);
-					if((sub=(f_ftr[j][z]-f_ave[j][z]))<0.0)sub*=-1.0;
-					sum+=sub*sub;//差の２乗の和（三平方をしたい）
+					fscanf(fp_ftr,"%lf",&f_ftr[j][z]);
 				}
 			}
-			dic[i2]=sqrt(sum);
+			fseek(fp_ave,0,SEEK_SET);
+			for(i2=0;i2<CNUM;i2++){
+				sum=0;
+				for(j=0;j<DIM;j++){
+					for(z=0;z<4;z++){
+						fscanf(fp_ave,"%lf",&f_ave[j][z]);
+						if((sub=(f_ftr[j][z]-f_ave[j][z]))<0.0)sub*=-1.0;
+						sum+=sub*sub;//差の２乗の和（三平方をしたい）
+					}
+				}
+				dic[i2]=sqrt(sum);
+			}
+			num=min_num(dic,CNUM)+1;
+			if(num==(k+1))count[k]++;
+			chcnt[k]++;
 		}
-		num=min_num(dic,CNUM)+1;
-		if(num==filenumber)count++;
+		fclose(fp_ftr);
 	}
-	printf("正確に認識できたのは%d/%d個です。\n",count,DNUM);
+	
+	for(k=0;k<CNUM;k++){
+		printf("%d : 認識率 %d/%d\n",k,count[k],chcnt[k]);
+		cntsum+=count[k];
+		chsum+=chcnt[k];
+	}
+	
+	printf("[全体の認識率 %d/%d]\n",cntsum,chsum);
+
 	fclose(fp_ave);
 	fclose(fp_ftr);
 }
