@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include <math.h>
 
+#ifdef __x86_64__
+
 #define AVEFILE	"Imgfiles/ave.dic"
 #define DIM   	16    /* o·éÁ¥ÊÌ³ */
 #define DNUM	20	//一つのファイルのデータ数
 #define CNUM	46	//文字数
 
+#endif
 
 int min_num(double *array,int num);
 
@@ -47,14 +50,14 @@ int main(){
 out:
 		fclose(fp_ftr);
 	}
-	
+	puts("番号　  認識数　 　　認識率");
 	for(k=0;k<CNUM;k++){
-		printf("%d : 認識率 %d/%d\n",k+1,count[k],chcnt[k]);
+		printf("%3d  :  %d/%d 個  %9.3lf%%\n",k+1,count[k],chcnt[k],(double)count[k]/(double)chcnt[k]*100.0);
 		cntsum+=count[k];
 		chsum+=chcnt[k];
 	}
 	
-	printf("[全体の認識率 %d/%d]\n",cntsum,chsum);
+	printf("[*]全体の認識数 %d/%d　個 \n[*]全体の認識率 %lf%%\n",cntsum,chsum,(double)cntsum/(double)chsum*100.0);
 
 	fclose(fp_ave);
 	fclose(fp_ftr);
