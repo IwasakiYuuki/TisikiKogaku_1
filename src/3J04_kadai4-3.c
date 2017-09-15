@@ -55,8 +55,8 @@ int main( )
         /*
          *    画像ファイル・特徴ファイルの名前を設定する
          */
-        sprintf( infn, "%02d.img", i+1 ) ;
-        sprintf( outfn, "%02d.ftr", i+1 ) ;
+        sprintf( infn, "Imgfiles/c%02d.img", i+1 ) ;
+        sprintf( outfn, "Imgfiles/c%02d.ftr", i+1 ) ;
 
         /*
          *    文字画像ファイルおよび特徴ファイルを開く
@@ -64,10 +64,13 @@ int main( )
         fp1 = fopen( infn, "rb" ) ;
         fp2 = fopen( outfn, "w" ) ;
 
+		if(fp1==NULL||fp2==NULL)puts("fuck.");
+
         /*
          *    ファイル内に文字画像データがある限り
          *    下記の処理を繰り返す
          */
+		puts("aaaaa");
         while( fread( img, 512, 1,fp1 ) == 1 ) {
             /*
              *    前処理
@@ -77,7 +80,7 @@ int main( )
             smooth( p ) ;
             thinning(p);
 			normalize( p ) ;
-//            outline( p ) ;
+            outline( p ) ;
             /*
              *    特徴抽出．ここではDIM個の数値を抽出する．
              */

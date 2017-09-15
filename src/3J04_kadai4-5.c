@@ -22,7 +22,7 @@ int main(){
 	int sub=0,cntsum=0,chsum=0;
 	fp_ave=fopen(AVEFILE,"r");
 	for(k=0;k<CNUM;k++){
-		sprintf(filename,"Imgfiles/%02d.ftr",k+1);
+		sprintf(filename,"Imgfiles/c%02d.ftr",k+1);
 		fp_ftr=fopen(filename,"r");
 		i=0;
 		while(1){

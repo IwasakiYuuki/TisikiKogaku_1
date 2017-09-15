@@ -21,11 +21,11 @@ int main( )
 
     for( i = 0 ; i < 46 ; i++ ) {
 
-		sprintf( infn, "Imgfiles/%02d.ftr", i+1 ) ;
+		sprintf( infn, "Imgfiles/c%02d.ftr", i+1 ) ;
         fp_ftr = fopen( infn, "r" ) ;
 
 		if(fp_ftr==NULL){
-			printf("[ERROR] : can not open files [%02d.ftr].\n",i+1);
+			printf("[ERROR] : can not open files [c%02d.ftr].\n",i+1);
 			exit(1);
 		}
 
